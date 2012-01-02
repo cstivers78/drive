@@ -1,0 +1,20 @@
+{
+  "author": "Chris Stivers <chris@stivers.us>",
+  "name": "drive",
+  "description": "web application framework",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "main": "lib",
+  "scripts": {
+    "test": "test/main"
+  },
+  "engines": {
+    "node": "~v0.4.11"
+  },
+  "dependencies": {
+    
+  },
+  "devDependencies": {}
+}
