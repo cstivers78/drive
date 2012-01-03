@@ -2,7 +2,7 @@
   "author": "Chris Stivers <chris@stivers.us>",
   "name": "drive",
   "description": "web application framework",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "url": "https://github.com/cstivers78/drive"
   },
@@ -11,7 +11,7 @@
     "test": "test/main"
   },
   "engines": {
-    "node": "~v0.4.11"
+    "node": ">= 0.5.0 < 0.7.0"
   },
   "dependencies": {
     "kick": ">=0.0.0",
