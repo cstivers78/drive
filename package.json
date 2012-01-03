@@ -4,7 +4,7 @@
   "description": "web application framework",
   "version": "0.0.0",
   "repository": {
-    "url": ""
+    "url": "https://github.com/cstivers78/drive"
   },
   "main": "lib",
   "scripts": {
@@ -14,7 +14,12 @@
     "node": "~v0.4.11"
   },
   "dependencies": {
-    
+    "kick": ">=0.0.0",
+    "bliss": ">=0.0.0",
+    "less": ">=1.1.6",
+    "coffee-script": ">=1.2.0",
+    "underscore": ">=1.2.3",
+    "express": ">=2.5.3"
   },
   "devDependencies": {}
 }
