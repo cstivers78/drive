@@ -1,8 +1,9 @@
 # Drive
 
-A Web Application Framework for Node, inspired by Ruby on Rails and Play! Framework. 
+Drive is a web application framework for Node.js. Following in the tradition of Ruby on Rails and Play! Framework, but built on Node.js and Express/Connect middleware.
 
-## Background
+Some key features:
 
-I enjoy developing web application using Play! Framework, but I have begun working in Node.js recently for web applications. I figured I will bring some of the features I liked about Play! Framework over to Node.
-
+* Hot reloading of application code including controllers, models and views.
+* Support for compiled assets. Currently includes CoffeeScript and LESS CSS.
+* Use of the Bliss template engine.
