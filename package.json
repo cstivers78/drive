@@ -6,7 +6,7 @@
   "repository": {
     "url": "https://github.com/cstivers78/drive"
   },
-  "main": "lib",
+  "main": "src/",
   "scripts": {
     "test": "test/main"
   },
@@ -14,7 +14,6 @@
     "node": ">= 0.5.0 < 0.7.0"
   },
   "dependencies": {
-    "kick": ">=0.0.0",
     "bliss": ">=0.1.7",
     "less": ">=1.1.6",
     "coffee-script": ">=1.2.0",
