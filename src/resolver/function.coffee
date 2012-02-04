@@ -1,4 +1,4 @@
-Resolver = require './'
+Resolver = require './resolver'
 
 module.exports = class FunctionResolver extends Resolver
 

@@ -1,7 +1,9 @@
 _ = require 'underscore'
 express = require 'express'
+router = require './router'
+middleware = require './middleware'
 compiler = require './compiler'
-routes = require './routes'
+util = require 'util'
 path = require 'path'
 fs = require 'fs'
 
@@ -13,11 +15,11 @@ getHandler = (app,route) ->
   (req,res,next) -> 
     controller[route.handler.name] req, res, next
 
-module.exports = class Server
+class Server
 
   constructor: (app) ->
-    server = express.createServer();
-    mode = process.env.NODE_ENV || 'development';
+    server = express.createServer()
+    mode = process.env.NODE_ENV || 'development'
     
     #
     # Global Configurations
@@ -35,53 +37,57 @@ module.exports = class Server
       server.use express.profiler()
       server.use express.responseTime()
     
-    server.use require('./middleware/drive')()
+    server.use middleware.drive()
     
-    server.use require('./middleware/assets') {
-      path: app.assets.path
+    server.use middleware.assets {
+      path: app.assets._path
       compilers: [
-        new (require('./compiler/coffee'))
-        new (require('./compiler/less'))
+        new compiler.Coffee
+        new compiler.Less
       ]
     }
 
-    server.use require('./middleware/views') {
-      path: app.views.path
+    server.use middleware.views {
+      path: app.views._path
       minify: true
     }
 
+    server.use middleware.locale {
+      locales: app.conf.locales
+    }
+
+
+    server.use express.cookieParser()
     server.use express.bodyParser()
 
     #
     # Application Configurations
     #
-
-    # if app.configs.existsSync mode
-      # app.configs.require(mode).configure app, server, express
+    
+    if app.conf[mode]
+      app.conf[mode].configure app, server, express
 
     # 
     # Application Routing
     #
-
-    routes(app.conf.routes.path).forEach (route) ->
-      handler = getHandler(app,route)
-      if route.method && route.uri && handler?
-        switch route.method
-          when 'GET'    then server.get.call server, route.uri, handler
-          when 'DELETE' then server.del.call server, route.uri, handler
-          when 'POST'   then server.post.call server, route.uri, handler
-          when 'PUT'    then server.put.call server, route.uri, handler
+    _.values app.routes
+    server.use middleware.route app.router
+    # console.log 'Router :=', util.inspect(app.router,false,20)
 
     #
     # Global Configurations
     #
-    server.use express.static app.public.path, { maxAge: 60*1000 }
-    server.use express.static app.assets.path, { maxAge: 60*1000 }
+    server.use express.static app.public._path, { maxAge: 60*1000 }
+    server.use express.static app.assets._path, { maxAge: 60*1000 }
 
     @app = app
     @server = server
     @mode = mode
-    
-  listen: (port, addr) ->
+  
+  listen: (port, addr='localhost') ->
+    console.info "Listening on #{addr}:#{port}"
     @server.listen port, addr
     @
+
+
+module.exports = Server

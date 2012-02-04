@@ -19,7 +19,7 @@ module.exports = (options) ->
     res.render = (args...) ->
       if args.length > 0 
         filename = args.shift()
-        filepath = path.resolve viewsPath, filename + ext
+        filepath = path.resolve viewsPath, filename
         template = bliss.compileFile filepath, {}
         output = template.apply null, args
         res.send output

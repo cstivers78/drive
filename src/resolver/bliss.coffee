@@ -16,11 +16,11 @@ module.exports = class BlissResolver extends FunctionResolver
 
   constructor: (path) -> super path
   
-  load: (event) ->
+  _load: (event) ->
     self = @
     
-    if not path.existsSync self.path
-      self.destroy()
+    if not path.existsSync self._path
+      self._destroy()
     else
-      template = bliss.compileFile self.path
-      @set 'apply', -> template
+      template = bliss.compileFile self._path
+      self._set 'apply', -> template

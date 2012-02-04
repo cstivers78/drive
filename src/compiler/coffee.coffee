@@ -1,6 +1,6 @@
 _ = require 'underscore'
 coffeeScript = require 'coffee-script'
-Compiler = require './'
+Compiler = require './compiler'
 
 module.exports = class Coffee extends Compiler
 
@@ -13,6 +13,6 @@ module.exports = class Coffee extends Compiler
   compile: (source,options,callback) ->
     options = _.defaults {}, options ? {}, @options ? {}
     try
-      callback undefined, coffeeScript.comppile(source)
+      callback undefined, coffeeScript.compile(source)
     catch error
       callback error

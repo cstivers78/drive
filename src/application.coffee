@@ -1,22 +1,24 @@
 _ = require 'underscore'
 path = require 'path'
-Resolver = require './resolver'
+Resolver = require('./resolver').Resolver
+Router = require('./router').Router
 Server = require './server'
 
 cache = {};
 
-module.exports = class Application
+class Application
 
   constructor: (@module) ->
     self = @
     @path = path.dirname @module.filename
-    @app = app = Resolver.resolve path.resolve @path, 'app'
-    @conf = conf = Resolver.resolve path.resolve @path, 'conf'
+    @router = router = new Router()
+    @app = app = Resolver.create path.resolve @path, 'app'
+    @conf = conf = Resolver.create path.resolve @path, 'conf'
+    @public = public = Resolver.create path.resolve @path, 'public'
     Object.defineProperty @, 'assets', get: -> app.assets
-    Object.defineProperty @, 'public', get: -> app.public
     Object.defineProperty @, 'models', get: -> app.models
     Object.defineProperty @, 'views', get: -> app.views
-    Object.defineProperty @, 'controllers', get: -> app.controllers
+    Object.defineProperty @, 'routes', get: -> app.routes
   
   listen: (port,address) ->
     try
@@ -33,6 +35,7 @@ module.exports = class Application
     console.log "      views :=", this.views.length
     console.log "controllers :=", this.controllers.list().length
 
+module.exports = Application
 module.exports.application = (module) ->
   module ?= require.main
   cache[module.filename] ?= new Application(module)

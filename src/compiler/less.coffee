@@ -1,6 +1,6 @@
 _ = require 'underscore'
 less = require 'less'
-Compiler = require './'
+Compiler = require './compiler'
 
 module.exports = class Coffee extends Compiler
 
