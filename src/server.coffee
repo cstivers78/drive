@@ -72,12 +72,10 @@ class Server
     #
     _.values app.routes
     server.use middleware.route app.router
-    # console.log 'Router :=', util.inspect(app.router,false,20)
 
     #
     # Global Configurations
     #
-    server.use express.static app.public._path, { maxAge: 60*1000 }
     server.use express.static app.assets._path, { maxAge: 60*1000 }
 
     @app = app

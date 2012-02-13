@@ -4,7 +4,9 @@ Application = require './application'
 main = 
   app: new Application(require.main)
   middleware: 
-    request: require './middleware/request'
+    response: require './middleware/response'
+  extractor: 
+    request: require './extractor/request'
 
 Object.defineProperty global, 'app', get: -> main.app
 Object.defineProperty global, 'models', get: -> main.app.models

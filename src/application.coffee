@@ -14,7 +14,6 @@ class Application
     @router = router = new Router()
     @app = app = Resolver.create path.resolve @path, 'app'
     @conf = conf = Resolver.create path.resolve @path, 'conf'
-    @public = public = Resolver.create path.resolve @path, 'public'
     Object.defineProperty @, 'assets', get: -> app.assets
     Object.defineProperty @, 'models', get: -> app.models
     Object.defineProperty @, 'views', get: -> app.views

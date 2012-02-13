@@ -18,7 +18,6 @@ module.exports = class BlissResolver extends FunctionResolver
   
   _load: (event) ->
     self = @
-    
     if not path.existsSync self._path
       self._destroy()
     else

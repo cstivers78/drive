@@ -19,18 +19,15 @@ class Route
 
     callbacks = (err) ->
       callback = middleware.shift()
-      try
-        if err && callback
-          if callback.length >= 4 
-            callback err, req, res, callbacks
-          else
-            callbacks(err);
-        else if callback
-          callback req, res, callbacks
+      if err && callback
+        if callback.length >= 4 
+          callback err, req, res, callbacks
         else
-          next err
-      catch thrown
-        callbacks thrown
+          callbacks(err);
+      else if callback
+        callback req, res, callbacks
+      else
+        next err
 
     callbacks()
 

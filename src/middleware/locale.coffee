@@ -4,6 +4,8 @@ require('../enrich/string')
 module.exports = (options) -> (req, res, next) ->
   req.acceptedLanguages = acceptedLanguages(req);
   req.locale = req.acceptedLanguages.reduce matchLocale(app.conf.locales), undefined
+  if req.locale is undefined
+    req.locale = app.conf.locales['en']
   next()
 
 

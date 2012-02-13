@@ -1,3 +1,4 @@
+_ = require 'underscore'
 path = require 'path'
 Bliss = require 'bliss'
 
@@ -9,6 +10,7 @@ module.exports = (options) ->
     context: {
       _: require 'underscore'
     },
+    cacheEnabled: true,
     ext: '.js.html'
   }
 
@@ -16,13 +18,16 @@ module.exports = (options) ->
   ext = options.ext ? '.js.html';
 
   return (req, res, next) ->
-    res.render = (args...) ->
-      if args.length > 0 
-        filename = args.shift()
-        filepath = path.resolve viewsPath, filename
-        template = bliss.compileFile filepath, {}
-        output = template.apply null, args
-        res.send output
-      else
-        next "insufficient arguments for render"
+    res.render = (view, args...) ->
+      try
+        template = 
+          if view._path?
+            bliss.compileFile view._path
+          else if _.isFunction(view)
+            view
+          else
+            bliss.compileFile path.resolve(viewsPath,view)
+        res.send template args...
+      catch thrown
+        next thrown
     next()
