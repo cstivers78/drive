@@ -35,19 +35,20 @@ class Router
     if current? and current?.value == '*'
       current
     else if segment? and segment.name? and segment.pattern?
-      node = new PatternNode(current,segment.pattern)
-      current.patterns[node] = node
-      node
+      if not current.patterns[segment.pattern]?
+        current.patterns[segment.pattern] = new PatternNode(current,segment.pattern)
+      else
+        current.patterns[segment.pattern]
     else if segment == '*'
-      node = new ValueNode(current,segment)
-      current.catchall = node
-      node
-    else if not current.values?[segment]
-      node = new ValueNode(current,segment)
-      current.values[node] = node
-      node
-    else
-      current.values[segment]
+      if not current.catchall?
+        current.catchall = new ValueNode(current,segment)
+      else
+        current.catchall
+    else 
+      if not current.values?[segment]
+        current.values[segment] = new ValueNode(current,segment)
+      else
+        current.values[segment]
     
   add: (route) ->
     node = route.path.segments.reduce findAndCreate, @root
@@ -60,7 +61,6 @@ class Router
       delete node.methods[route.method]
   
   lookup: (path,method) ->
-    console.log 'lookup >>'
     if path? and method?
       if path not instanceof Path
         path = new Path(path)

@@ -100,6 +100,9 @@ module.exports.create = (filepath) ->
       when '.js'
         ScriptResolver = require('./script')
         return new ScriptResolver filepath
+      when '.coffee'
+        ScriptResolver = require('./script')
+        return new ScriptResolver filepath
       when '.yml'
         YAMLResolver = require('./yaml')
         return new YAMLResolver filepath
